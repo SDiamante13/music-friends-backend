@@ -8,3 +8,6 @@ target/
 *.iws
 *.iml
 *.ipr
+
+## Secrets
+src/main/resources/application-secret.yml

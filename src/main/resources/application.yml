@@ -1,1 +1,5 @@
-
+client:
+  callback-url: "http://localhost:8080/api/v1/callback"
+spring:
+  profiles:
+    active: secret

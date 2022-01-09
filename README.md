@@ -8,7 +8,6 @@ Like the same band as a friend, great! Show your appreciation with a microphone.
 
 Welcome to the band!
 
-
 # Spotify API
 
 https://developer.spotify.com/documentation/web-api/quick-start/
@@ -26,3 +25,9 @@ This call returns an access token and also a refresh token.
 curl --request POST --url https://accounts.spotify.com/api/token --header 'Authorization: Basic ${clientId}:${clientSecret}=' --header 'Content-Type: application/x-www-form-urlencoded'
  --data code=${code} --data redirect_uri=http://localhost:8080/api/v1/callback --data grant_type=authorization_code
 ```
+
+## Home page UI Design
+
+![Home Page Design](src/main/resources/static/home-page.png)
+
+

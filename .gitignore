@@ -11,3 +11,4 @@ target/
 
 ## Secrets
 src/main/resources/application-secret.yml
+

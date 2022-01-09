@@ -1,2 +1,5 @@
-package com.kinandcarta.musicfriendsbackend;public class SpotifyClientTest {
+package com.kinandcarta.musicfriendsbackend;
+
+class SpotifyClientTest {
+
 }

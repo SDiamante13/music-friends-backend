@@ -1,12 +1,5 @@
-package com.kinandcarta.musicfriendsbackend.client;
+package com.kinandcarta.musicfriends.auth;
 
-import com.kinandcarta.musicfriendsbackend.model.CallbackResponse;
-import com.kinandcarta.musicfriendsbackend.model.MusicTokenInfo;
-import com.kinandcarta.musicfriendsbackend.model.SpotifyAuthProperties;
-import com.kinandcarta.musicfriendsbackend.model.exception.ClientException;
-import com.kinandcarta.musicfriendsbackend.model.exception.EmptyTokenInfoException;
-import com.kinandcarta.musicfriendsbackend.model.exception.ServerException;
-import com.kinandcarta.musicfriendsbackend.util.ExceptionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,24 +14,24 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
 @Slf4j
-public class SpotifyClient implements MusicClient {
+class SpotifyAuthClient implements AuthClient {
 
     private final WebClient authClient;
 
     private final SpotifyAuthProperties spotifyAuthProperties;
 
-    public SpotifyClient(WebClient authClient, SpotifyAuthProperties spotifyAuthProperties) {
+    SpotifyAuthClient(WebClient authClient, SpotifyAuthProperties spotifyAuthProperties) {
         this.authClient = authClient;
         this.spotifyAuthProperties = spotifyAuthProperties;
     }
 
     @Override
-    public MusicTokenInfo getMusicTokenInfo(String code) {
+    public SpotifyToken retrieveSpotifyToken(String code) {
         String encodedAuthToken = spotifyAuthProperties.encodeAuthToken();
-        Optional<MusicTokenInfo> optionalTokenInfo = Optional.empty();
+        Optional<SpotifyToken> optionalTokenInfo = Optional.empty();
 
         try {
-            MusicTokenInfo tokenInfo = retrieveTokenInfo(code, encodedAuthToken);
+            SpotifyToken tokenInfo = retrieveTokenInfo(code, encodedAuthToken);
             optionalTokenInfo = Optional.ofNullable(tokenInfo);
             optionalTokenInfo.orElseThrow(EmptyTokenInfoException::new);
         } catch (EmptyTokenInfoException | ClientException | ServerException e) {
@@ -57,7 +50,7 @@ public class SpotifyClient implements MusicClient {
         }
     }
 
-    private MusicTokenInfo retrieveTokenInfo(String code, String basicAuthToken) {
+    private SpotifyToken retrieveTokenInfo(String code, String basicAuthToken) {
         return authClient.post()
                 .bodyValue(buildFormData(code))
                 .header(AUTHORIZATION, basicAuthToken)
@@ -65,7 +58,7 @@ public class SpotifyClient implements MusicClient {
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError, ExceptionUtils.throwClientException())
                 .onStatus(HttpStatus::is5xxServerError, ExceptionUtils.throwServerException())
-                .bodyToMono(MusicTokenInfo.class)
+                .bodyToMono(SpotifyToken.class)
                 .block();
     }
 

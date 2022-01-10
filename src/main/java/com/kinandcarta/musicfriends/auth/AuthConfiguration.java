@@ -1,9 +1,6 @@
-package com.kinandcarta.musicfriendsbackend.config;
+package com.kinandcarta.musicfriends.auth;
 
-import com.kinandcarta.musicfriendsbackend.client.SpotifyClient;
-import com.kinandcarta.musicfriendsbackend.model.SpotifyAuthProperties;
 import io.netty.resolver.DefaultAddressResolverGroup;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +9,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.netty.http.client.HttpClient;
 
-import static com.kinandcarta.musicfriendsbackend.util.Constants.SPOTIFY_TOKEN_URL;
+import static com.kinandcarta.musicfriends.auth.Constants.SPOTIFY_TOKEN_URL;
 
 @Configuration
 @EnableConfigurationProperties(SpotifyAuthProperties.class)
-public class WebConfiguration {
+class AuthConfiguration {
 
     @Bean
     WebClient authClient(HttpClient httpclient) {
@@ -32,7 +29,7 @@ public class WebConfiguration {
     }
 
     @Bean
-    SpotifyClient spotifyClient(WebClient webClient, SpotifyAuthProperties spotifyAuthProperties) {
-        return new SpotifyClient(webClient, spotifyAuthProperties);
+    SpotifyAuthClient spotifyClient(WebClient webClient, SpotifyAuthProperties spotifyAuthProperties) {
+        return new SpotifyAuthClient(webClient, spotifyAuthProperties);
     }
 }

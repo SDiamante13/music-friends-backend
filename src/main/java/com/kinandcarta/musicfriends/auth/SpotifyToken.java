@@ -1,4 +1,4 @@
-package com.kinandcarta.musicfriendsbackend.model;
+package com.kinandcarta.musicfriends.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MusicTokenInfo {
+class SpotifyToken {
     @JsonProperty("access_token")
     String authToken;
 

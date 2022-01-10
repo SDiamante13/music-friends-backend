@@ -25,9 +25,12 @@ public class CallbackResponse extends HttpServletResponseWrapper {
             log.error("Failed to add tokens as cookies. The tokens are null");
             return;
         }
+        String spotifyAuthToken = musicTokenInfo.getAuthToken();
+        String spotifyRefreshToken = musicTokenInfo.getRefreshToken();
+        log.info("Adding tokens to cookies. spotify-auth-token= " + spotifyAuthToken + "\nspotify-refresh-token= " + spotifyRefreshToken);
 
         HttpServletResponse response = getResponse();
-        response.addCookie(new Cookie("auth-token", musicTokenInfo.getAuthToken()));
-        response.addCookie(new Cookie("refresh-token", musicTokenInfo.getRefreshToken()));
+        response.addCookie(new Cookie("spotify-auth-token", spotifyAuthToken));
+        response.addCookie(new Cookie("spotify-refresh-token", spotifyRefreshToken));
     }
 }

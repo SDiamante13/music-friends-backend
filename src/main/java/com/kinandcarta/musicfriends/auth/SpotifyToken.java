@@ -9,11 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 class SpotifyToken {
     @JsonProperty("access_token")
-    String authToken;
+    private String authToken;
 
     @JsonProperty("refresh_token")
-    String refreshToken;
+    private String refreshToken;
 
     @JsonProperty("expires_in")
-    int expiresIn;
+    private int expiresIn;
+
+    boolean authTokenIsMissing() {
+        return this.authToken == null;
+    }
 }

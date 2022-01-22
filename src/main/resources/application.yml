@@ -3,3 +3,8 @@ client:
 spring:
   profiles:
     active: secret
+feign:
+  client:
+    config:
+      auth:
+        request-interceptors[0]: com.kinandcarta.musicfriends.auth.AuthClientInterceptor

@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-class SpotifyToken {
+public class SpotifyToken {
     @JsonProperty("access_token")
     private String authToken;
 
@@ -17,7 +17,4 @@ class SpotifyToken {
     @JsonProperty("expires_in")
     private int expiresIn;
 
-    boolean authTokenIsMissing() {
-        return this.authToken == null;
-    }
 }

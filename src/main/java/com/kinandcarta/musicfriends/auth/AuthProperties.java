@@ -14,7 +14,7 @@ import static java.lang.String.format;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "client")
-class SpotifyAuthProperties {
+class AuthProperties {
     private String username;
     private String secret;
     private String callbackUrl;

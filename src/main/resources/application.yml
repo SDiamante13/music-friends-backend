@@ -8,3 +8,6 @@ feign:
     config:
       auth:
         request-interceptors[0]: com.kinandcarta.musicfriends.auth.AuthClientInterceptor
+artist:
+  search:
+    url: https://blah.com

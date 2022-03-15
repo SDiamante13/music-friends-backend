@@ -1,4 +1,4 @@
-package com.kinandcarta.musicfriends.auth;
+package com.kinandcarta.musicfriends;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -88,17 +88,4 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.error.type", Matchers.is("ServerException")))
                 .andExpect(jsonPath("$.error.message", Matchers.is("An error occurred has occurred server side.")));
     }
-
-    @Test
-    void callback_returnsATokenFailureExceptionErrorMessage_whenATokenFailureExceptionOccurs() throws Exception {
-        willThrow(new TokenFailureException())
-                .given(mockAuthClient)
-                .retrieveSpotifyToken(any());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
-                .andDo(print())
-                .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.error.type", Matchers.is("TokenFailureException")))
-                .andExpect(jsonPath("$.error.message", Matchers.is("Tokens were not found to authenticate the user.")));
-    }
 }

@@ -1,5 +1,6 @@
 package com.kinandcarta.musicfriends.auth;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +15,9 @@ import org.springframework.util.MultiValueMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
@@ -61,42 +63,42 @@ class AuthControllerTest {
                         .contains("authToken", "refreshToken");
     }
 
-//    @Test
-//    void callback_returnsAClientExceptionErrorMessage_whenAClientExceptionOccurs() throws Exception {
-//        willThrow(new ClientException())
-//                .given(mockAuthClient)
-//                .retrieveSpotifyToken(CODE);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
-//                .andDo(print())
-//                .andExpect(status().isNotFound())
-//                .andExpect(jsonPath("$.error.type", is("ClientException")))
-//                .andExpect(jsonPath("$.error.message", is("An error occurred has occurred client side.")));
-//    }
-//
-//    @Test
-//    void callback_returnsAServerExceptionErrorMessage_whenAServerExceptionOccurs() throws Exception {
-//        willThrow(new ServerException())
-//                .given(mockAuthClient)
-//                .retrieveSpotifyToken(CODE);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
-//                .andDo(print())
-//                .andExpect(status().isServiceUnavailable())
-//                .andExpect(jsonPath("$.error.type", is("ServerException")))
-//                .andExpect(jsonPath("$.error.message", is("An error occurred has occurred server side.")));
-//    }
-//
-//    @Test
-//    void callback_returnsATokenFailureExceptionErrorMessage_whenATokenFailureExceptionOccurs() throws Exception {
-//        willThrow(new TokenFailureException())
-//                .given(mockAuthClient)
-//                .retrieveSpotifyToken(CODE);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
-//                .andDo(print())
-//                .andExpect(status().isInternalServerError())
-//                .andExpect(jsonPath("$.error.type", is("TokenFailureException")))
-//                .andExpect(jsonPath("$.error.message", is("Tokens were not found to authenticate the user.")));
-//    }
+    @Test
+    void callback_returnsAClientExceptionErrorMessage_whenAClientExceptionOccurs() throws Exception {
+        willThrow(new ClientException())
+                .given(mockAuthClient)
+                .retrieveSpotifyToken(any());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error.type", Matchers.is("ClientException")))
+                .andExpect(jsonPath("$.error.message", Matchers.is("An error occurred has occurred client side.")));
+    }
+
+    @Test
+    void callback_returnsAServerExceptionErrorMessage_whenAServerExceptionOccurs() throws Exception {
+        willThrow(new ServerException())
+                .given(mockAuthClient)
+                .retrieveSpotifyToken(any());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
+                .andDo(print())
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.error.type", Matchers.is("ServerException")))
+                .andExpect(jsonPath("$.error.message", Matchers.is("An error occurred has occurred server side.")));
+    }
+
+    @Test
+    void callback_returnsATokenFailureExceptionErrorMessage_whenATokenFailureExceptionOccurs() throws Exception {
+        willThrow(new TokenFailureException())
+                .given(mockAuthClient)
+                .retrieveSpotifyToken(any());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/callback?code=" + CODE))
+                .andDo(print())
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error.type", Matchers.is("TokenFailureException")))
+                .andExpect(jsonPath("$.error.message", Matchers.is("Tokens were not found to authenticate the user.")));
+    }
 }
